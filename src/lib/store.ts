@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { satellitePositionsApi } from "@/services/api";
+import satelliteReducer from './satelliteSlice'
 
 export const store = configureStore({
     reducer: {
-        // Add your reducers here
-    }
+        [satellitePositionsApi.reducerPath]: satellitePositionsApi.reducer,
+        satellite: satelliteReducer
+    },
+     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(satellitePositionsApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>;

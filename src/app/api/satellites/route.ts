@@ -11,7 +11,6 @@ export async function GET(request: Request) {
 
     try {
         const [rows] = await connection.execute('SELECT * FROM satellite_positions;')
-        console.log(rows);
         await connection.end();
         return NextResponse.json(rows, { status: 200 });
     } catch (error) {
