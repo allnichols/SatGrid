@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture, Html } from '@react-three/drei';
 import { useGetSatellitePositionsQuery } from "@/services/api";
