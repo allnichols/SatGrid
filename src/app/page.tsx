@@ -6,7 +6,7 @@ import { useGetSatellitePositionsQuery } from "@/services/api";
 import { useSelector, useDispatch } from "react-redux";
 import { SatellitePosition } from '@/types/types';
 import { setSelectedId } from "@/lib/satelliteSlice";
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/ui/card';
 
 
 function Earth() {
