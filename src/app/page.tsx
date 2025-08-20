@@ -1,8 +1,10 @@
 'use client'
+import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
+import { OrbitControls, Sphere, useTexture, Html } from '@react-three/drei';
 import { useGetSatellitePositionsQuery } from "@/services/api";
 import { useSelector, useDispatch } from "react-redux";
+import { SatellitePosition } from '@/types/types';
 import { setSelectedId } from "@/lib/satelliteSlice";
 
 
@@ -16,16 +18,8 @@ function Earth() {
   )
 }
 
- type SatellitePosition = {
-      satellite_id: number;
-      timestamp: string;
-      latitude: number;
-      longitude: number;
-      altitude_km: number;
-      velocity_kms: number | undefined;
-  };
-
 function Satellite({ data }: { data: SatellitePosition}) {
+  const [isShowTooltip, setShowTooltip] = useState(false)
   // Globe radius (should match your Earth sphere's radius)
   const earthRadius = 1; // Default Sphere radius is 1
 
@@ -40,10 +34,18 @@ function Satellite({ data }: { data: SatellitePosition}) {
   const x = r * Math.sin(phi) * Math.cos(theta);
   const y = r * Math.cos(phi);
   const z = r * Math.sin(phi) * Math.sin(theta);
+
   return (
-    <mesh onPointerEnter={() => console.log(data)}  position={[x,y,z]}>
+    <mesh onPointerOver={() => setShowTooltip(true)} onPointerOut={() => setShowTooltip(false)}  position={[x,y,z]}>
       <sphereGeometry args={[0.004, 8, 8]} />
       <meshStandardMaterial color={'red'} />
+      {isShowTooltip && (
+      <Html position={[0,0.02,0]} center>
+        <div>
+          {data.object_name}
+        </div>
+      </Html>
+    )}
     </mesh>
   )
 
@@ -60,8 +62,8 @@ export default function Home() {
         <ambientLight intensity={1} />
         <directionalLight position={[5, 5, 5]} />
         <Earth />
-        {data && data.map((datum) => {
-          return <Satellite key={datum.id} data={datum} />
+        {data && data.map((position) => {
+          return <Satellite key={position.satellite_id} data={position} />
         })}
         <OrbitControls target={[0,0,0]}/>
       </Canvas>
