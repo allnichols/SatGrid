@@ -6,6 +6,7 @@ import { useGetSatellitePositionsQuery } from "@/services/api";
 import { useSelector, useDispatch } from "react-redux";
 import { SatellitePosition } from '@/types/types';
 import { setSelectedId } from "@/lib/satelliteSlice";
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 
 
 function Earth() {
@@ -41,9 +42,11 @@ function Satellite({ data }: { data: SatellitePosition}) {
       <meshStandardMaterial color={'red'} />
       {isShowTooltip && (
       <Html position={[0,0.02,0]} center>
-        <div>
-          {data.object_name}
-        </div>
+        <Card className='bg-black p-2' style={{ minWidth: "max-content" }}>
+          <CardTitle className='text-white'>
+            {data.object_name}
+          </CardTitle>
+        </Card>
       </Html>
     )}
     </mesh>
@@ -57,7 +60,7 @@ export default function Home() {
   const dispatch = useDispatch();
   
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen bg-black">
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={1} />
         <directionalLight position={[5, 5, 5]} />
