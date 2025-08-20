@@ -3,10 +3,9 @@ import { Card, CardTitle } from '@/components/ui/card';
 import { SatellitePosition } from '@/types/types';
 import { Html } from '@react-three/drei';
 
-
 export default function Satellite({ satellite_position }: {satellite_position: SatellitePosition}) {
      const [isShowTooltip, setShowTooltip] = useState(false)
-      // Globe radius (should match your Earth sphere's radius)
+
       const earthRadius = 1; // Default Sphere radius is 1
     
       // Convert degrees to radians
