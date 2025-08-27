@@ -1,38 +1,33 @@
 import { useState } from 'react';
 import { Card, CardTitle } from '@/components/ui/card';
 import { SatellitePosition } from '@/types/types';
+import * as satellite from 'satellite.js';
 import { Html } from '@react-three/drei';
+import { Line } from '@react-three/drei';
 
-export default function Satellite({ satellite_position }: {satellite_position: SatellitePosition}) {
-     const [isShowTooltip, setShowTooltip] = useState(false)
+function getOrbitPath(tle_line1: string, tle_line2: string, steps = 200) {
+const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
+  const now = new Date();
+  const positions: Array<[number, number, number]> = [];
+  for (let i = 0; i < steps; i++) {
+    const time = new Date(now.getTime() + i * 60 * 1000);
+    const result = satellite.propagate(satrec, time);
+    if (result?.position) {
+      // Scale ECI coordinates to globe radius
+      const scale = 1 / 6371; // Earth radius in km
+      positions.push([
+        result.position.x * scale,
+        result.position.z * scale, // Z and Y are swapped for three.js
+        result.position.y * scale
+      ]);
+    }
+  }
+  return positions;
+}
 
-      const earthRadius = 1; // Default Sphere radius is 1
-    
-      // Convert degrees to radians
-      const phi = (90 - satellite_position.latitude) * Math.PI / 180;
-      const theta = (satellite_position.longitude + 180) * Math.PI / 180;
-    
-      // Scale altitude to your globe's radius
-      const r = earthRadius + satellite_position.altitude_km;
-    
-      // Spherical to Cartesian conversion
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.cos(phi);
-      const z = r * Math.sin(phi) * Math.sin(theta);
-    
-      return (
-        <mesh onPointerOver={() => setShowTooltip(true)} onPointerOut={() => setShowTooltip(false)}  position={[x,y,z]}>
-          <sphereGeometry args={[0.005, 8, 8]} />
-          <meshStandardMaterial color={'red'} />
-          {isShowTooltip && (
-          <Html position={[0,0.02,0]} center>
-            <Card className='bg-black p-2' style={{ minWidth: "max-content" }}>
-              <CardTitle className='text-white'>
-                {satellite_position.object_name}
-              </CardTitle>
-            </Card>
-          </Html>
-        )}
-        </mesh>
-      )
+
+export default function SatellitePath({ tle_line1, tle_line2 }: { tle_line1: string, tle_line2: string }) {
+  let points = getOrbitPath(tle_line1, tle_line2);
+  if (points.length < 2) return null;
+  return <Line points={points} color="yellow" lineWidth={.5} />;
 }

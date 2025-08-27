@@ -9,4 +9,10 @@ export type SatellitePosition = {
       norad_cat_id: string;
       sub_category: string;
       category: string;
+      inclination: number;
+      ra_of_asc_node: number;
+      eccentricity: number;
+      arg_of_pericenter: number;
+      mean_anomaly: number;
+      mean_motion: number;
   };
