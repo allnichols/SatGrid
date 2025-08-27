@@ -1,9 +1,10 @@
 'use client'
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, useTexture, Html } from '@react-three/drei';
+import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import { useGetSatellitePositionsQuery } from "@/services/api";
-import Satellite from '@/components/satellite';
 import SatellitePath from '@/components/satellite';
+import SatelliteContainer from '@/components/satellite';
+
 
 
 function Earth() {
@@ -17,7 +18,6 @@ function Earth() {
 }
 
 export default function Home() {
-  const { data } = useGetSatellitePositionsQuery();
 
   return (
     <div className="flex items-center justify-center h-screen bg-black">
@@ -25,18 +25,7 @@ export default function Home() {
         <ambientLight intensity={2} />
         <directionalLight position={[5, 5, 5]} />
         <Earth />
-        {data && data.map((sat, id) => {
-          if (id < 5) {
-            return (
-              <SatellitePath
-                key={sat.object_name}
-                tle_line1={sat.tle_line1}
-                tle_line2={sat.tle_line2}
-                object_name={sat.object_name}
-              />
-            )
-          }
-        })}
+        <SatelliteContainer />
         <OrbitControls target={[0, 0, 0]} />
       </Canvas>
     </div>
