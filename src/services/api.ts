@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { SatellitePosition } from '@/types/types';
 import { Satellite } from '@/app/api/satellites/types';
 
 export const satellitePositionsApi = createApi({
