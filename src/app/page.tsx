@@ -27,8 +27,14 @@ export default function Home() {
         <Earth />
         {data && data.map((sat, id) => {
           if (id < 5) {
-            return <SatellitePath key={sat.object_name} tle_line1={sat.tle_line1} tle_line2={sat.tle_line2} />
-
+            return (
+              <SatellitePath
+                key={sat.object_name}
+                tle_line1={sat.tle_line1}
+                tle_line2={sat.tle_line2}
+                object_name={sat.object_name}
+              />
+            )
           }
         })}
         <OrbitControls target={[0, 0, 0]} />
