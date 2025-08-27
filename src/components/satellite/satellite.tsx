@@ -9,10 +9,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedSatelliteId } from '@/lib/satelliteSlice';
 import { RootState } from '@/lib/store';
 import { TSatellite } from '@/app/api/satellites/types';
+import Path from './path';
 
 export function Satellite({ tle_line1, tle_line2, object_name, category }: TSatellite ) {
   const [isShowTooltip, setShowTooltip] = useState(false);
-  const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId)
   const dispatch = useDispatch();
 
   // Fix the time at mount
@@ -40,8 +40,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
 
   return (
     <> 
-    {selectedSatellite === object_name ? <Line points={smoothPoints.map(p => [p.x, p.y, p.z])} color="lightblue" lineWidth={1}  /> : null}
-      
+    <Path object_name={object_name} points={smoothPoints} />
       {satPos && (
         <mesh 
           onPointerEnter={() => setShowTooltip(true)} 
