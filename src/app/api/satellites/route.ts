@@ -11,24 +11,12 @@ export async function GET(request: Request) {
 
     try {
         const [rows] = await connection.execute(`
-            SELECT
-                satellite_positions.satellite_id,
-                satellite_positions.timestamp,
-                satellite_positions.latitude,
-                satellite_positions.longitude,
-                satellite_positions.altitude_km,
-                satellite_positions.velocity_kms,
-                satellites.object_name,
-                satellites.norad_cat_id,
-                satellites.category,
-                satellites.sub_category 
-            FROM 
-                satellite_positions
-            INNER JOIN
-                satellites
-            ON
-                satellite_positions.satellite_id = satellites.id;
-
+                SELECT 
+                    satellites.object_name, 
+                    satellites.tle_line1, 
+                    satellites.tle_line2 
+                FROM 
+                    satellites;
             `)
         await connection.end();
         return NextResponse.json(rows, { status: 200 });
