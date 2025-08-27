@@ -1,8 +1,6 @@
 'use client'
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
-import { useGetSatellitePositionsQuery } from "@/services/api";
-import SatellitePath from '@/components/satellite';
 import SatelliteContainer from '@/components/satellite';
 
 
