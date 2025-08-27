@@ -8,15 +8,9 @@ import * as THREE from 'three';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedSatelliteId } from '@/lib/satelliteSlice';
 import { RootState } from '@/lib/store';
+import { TSatellite } from '@/app/api/satellites/types';
 
-
-type Satellite = {
-    tle_line1: string;
-    tle_line2: string;
-    object_name: string;
-}
-
-export function Satellite({ tle_line1, tle_line2, object_name }: Satellite ) {
+export function Satellite({ tle_line1, tle_line2, object_name }: TSatellite ) {
   const [isShowTooltip, setShowTooltip] = useState(false);
   const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId)
   const dispatch = useDispatch();
@@ -58,7 +52,7 @@ export function Satellite({ tle_line1, tle_line2, object_name }: Satellite ) {
           <sphereGeometry args={[0.005, 10, 10]} />
           <meshStandardMaterial color="red" />
           {isShowTooltip && (
-            <Html>
+            <Html position={[0, 0.03, 0]}>
               <Card className='bg-black p-2' style={{ minWidth: "max-content" }}>
                 <CardTitle className='text-white'>
                   {object_name}

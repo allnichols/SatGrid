@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import mysql from 'mysql2/promise';
-import { Satellite } from "./types";
+import { TSatellite } from "./types";
 
 export async function GET() {
     const connection = await mysql.createConnection({
@@ -21,7 +21,7 @@ export async function GET() {
                 satellites;
         `);
         await connection.end();
-        return NextResponse.json(rows as Satellite[], { status: 200 });
+        return NextResponse.json(rows as TSatellite[], { status: 200 });
     } catch (error) {
         console.error('Error executing query:', error);
         await connection.end();
