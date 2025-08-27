@@ -10,7 +10,13 @@ import { setSelectedSatelliteId } from '@/lib/satelliteSlice';
 import { RootState } from '@/lib/store';
 
 
-export function Satellite({ tle_line1, tle_line2, object_name }: { tle_line1: string, tle_line2: string, object_name: string }) {
+type Satellite = {
+    tle_line1: string;
+    tle_line2: string;
+    object_name: string;
+}
+
+export function Satellite({ tle_line1, tle_line2, object_name }: Satellite ) {
   const [isShowTooltip, setShowTooltip] = useState(false);
   const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId)
   const dispatch = useDispatch();
