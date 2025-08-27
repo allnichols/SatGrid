@@ -11,12 +11,13 @@ export async function GET() {
     });
 
     try {
-
         const [rows] = await connection.execute(`
             SELECT 
                 satellites.object_name, 
                 satellites.tle_line1, 
-                satellites.tle_line2 
+                satellites.tle_line2, 
+                satellites.category,
+                satellites.sub_category
             FROM 
                 satellites;
         `);

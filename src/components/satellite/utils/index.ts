@@ -10,7 +10,7 @@ export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) 
   const now = new Date();
   const positions: Array<[number, number, number]> = [];
   for (let i = 0; i < steps; i++) {
-    const time = new Date(now.getTime() + (i  * periodMinutes * 60 * 1005) / steps);
+    const time = new Date(now.getTime() + (i * periodMinutes * 60 * 1005) / steps);
     const result = satellite.propagate(satrec, time);
     if (result?.position) {
       // Scale ECI coordinates to globe radius
@@ -23,4 +23,13 @@ export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) 
     }
   }
   return positions;
+}
+
+
+export function getSatelliteColor(category: string) {
+  let color: string = ''
+  if (category === 'Weather Satellites') {
+    color = 'red';
+  }
+  return color;
 }

@@ -18,6 +18,7 @@ export default function SatelliteContainer() {
             tle_line1={sat.tle_line1}
             tle_line2={sat.tle_line2}
             object_name={sat.object_name}
+            category={sat.category}
           />
         ))}
       </>
