@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Card, CardTitle } from '@/components/ui/card';
 import { getOrbitPath } from './utils';
 import * as satellite from 'satellite.js';
@@ -21,6 +21,9 @@ export function Satellite({ tle_line1, tle_line2, object_name }: Satellite ) {
   const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId)
   const dispatch = useDispatch();
 
+  // Fix the time at mount
+  const fixedTimeRef = useRef<Date>(new Date());
+
   let points = getOrbitPath(tle_line1, tle_line2);
   if (points.length < 2) return null;
 
@@ -30,7 +33,7 @@ export function Satellite({ tle_line1, tle_line2, object_name }: Satellite ) {
   // Get Current Position
   const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
   const now = new Date();
-  const result = satellite.propagate(satrec, now);
+  const result = satellite.propagate(satrec, fixedTimeRef.current);
   let satPos: [number, number, number] | null = null;
   if (result?.position) {
     const scale = 1 / 6371;
