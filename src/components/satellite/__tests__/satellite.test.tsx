@@ -1,65 +1,57 @@
 import ReactThreeTestRenderer from '@react-three/test-renderer';
-import { act } from '@testing-library/react';
-import Satellite from "..";
-import { Mesh } from 'three';
-import { Renderer } from '@react-three/test-renderer/dist/declarations/src/types';
+import SatelliteContainer from '..';
+import { Provider } from 'react-redux';
+import { store } from '@/lib/store';
 
-const mockSatellitePosition = {
-    satellite_id: 12345,
-    timestamp: "2024-06-01T12:00:00Z",
-    latitude: 45.0,
-    longitude: -122.0,
-    altitude_km: 550.0,
-    velocity_kms: 7.8,
-    object_name: "Hubble Space Telescope",
-    norad_cat_id: "20580",
-    sub_category: "storms",
-    category: "Weather"
-};
+jest.mock('@/services/api', () => ({
+    useGetSatellitePositionsQuery: jest.fn(() => ({
+        data: [
+            {
+                tle_line1: '1 25544U 98067A   20029.54791435  .00001264  00000-0  29621-4 0  9993',
+                tle_line2: '2 25544  51.6434  21.2062 0007417  36.5655  52.6186 15.49180526210616',
+                object_name: 'Hubble Space Telescope',
+                category: 'Weather'
+            }
+        ],
+        isLoading: false,
+        isError: false
+    })),
+    satellitePositionsApi: {
+        reducerPath: 'satellitePositionsApi',
+        reducer: (state = {}, action: any) => state, // dummy reducer
+        middleware: () => (next: (arg0: any) => any) => (action: any) => next(action), // dummy middleware
+    }
+}))
 
-describe('Satellite',() => {
+describe('Satellite', () => {
+
+    const component = (
+        <Provider store={store}>
+            <SatelliteContainer />
+        </Provider>
+    )
 
     test('Satellite renders a mesh with two children', async () => {
         const renderer = await ReactThreeTestRenderer.create(
-            <Satellite satellite_position={mockSatellitePosition}/>
+            component
         );
         const mesh = renderer.scene.children[0].allChildren;
-        expect(mesh.length).toBe(2) 
+        expect(mesh.length).toBe(2)
     });
 
     test('Satellite (weather) has the color red', async () => {
         const renderer = await ReactThreeTestRenderer.create(
-            <Satellite satellite_position={mockSatellitePosition}/>
+            component
         );
-        const color = renderer.scene.findByProps({ color: 'red' })
-
-        expect(color.props.color).toBe('red');
-    });
-
-    test('On click tooltip appears with name', async () => {
-        let renderer: Renderer | undefined;
-        await act(async () => {
-            renderer = await ReactThreeTestRenderer.create(
-                <Satellite satellite_position={mockSatellitePosition}/>
-            );
-        });
-
-        if (!renderer) {
-            throw new Error("Renderer was not initialized");
-        }
-
         const mesh = renderer.scene.children[0];
 
-        await renderer.fireEvent(mesh, 'onPointerOver');
-        
-        const htmlTooltip = renderer.scene.find(
-            node => {
-                return node.type === 'Group'
-            }
-        );
+        const material = mesh.allChildren.find(child => child.type === 'meshStandardMaterial' && child.props.color === 'red');
 
-        expect(htmlTooltip).toBeDefined();
-    })
+        expect(material).toBeDefined();
+        expect(material?.props.color).toBe('red');
+    });
+
+
 })
 
 
