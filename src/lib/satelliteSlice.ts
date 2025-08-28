@@ -4,11 +4,12 @@ const satelliteSlice = createSlice({
     name: 'satellite',
     initialState: { selectedId: null },
     reducers: {
-       setSelectedId: (state, action) => {
+       setSelectedSatelliteId: (state, action) => {
+        console.log('Selected Satellite ID:', action.payload);
             state.selectedId = action.payload
        } 
     }
 })
 
-export const { setSelectedId } = satelliteSlice.actions;
+export const { setSelectedSatelliteId } = satelliteSlice.actions;
 export default satelliteSlice.reducer;
