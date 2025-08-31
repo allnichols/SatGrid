@@ -1,4 +1,4 @@
-export type SatellitePosition = {
+export type SatelliteMeta = {
       satellite_id: number;
       timestamp: string;
       latitude: number;
