@@ -2,8 +2,6 @@ import { useSelector } from 'react-redux';
 import { Card, CardTitle } from '../ui/card';
 import { useGetMetaDataQuery } from '@/services/api';
 import { RootState } from '@/lib/store';
-import { useParams } from 'next/navigation';
-
 
 export default function InfoCard() {
     const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId);
@@ -20,11 +18,8 @@ export default function InfoCard() {
 }
 
 function InfoCardContent({ selectedSatellite }: { selectedSatellite: string }) {
-    const router = useParams();
-    const { satelliteName } = router;
-    console.log('Satellite Name:', satelliteName);
-    const { data, isLoading, isError } = useGetMetaDataQuery(satelliteName as string);
-    console.log(data)
+    const { data, isLoading, isError } = useGetMetaDataQuery(selectedSatellite);
+    console.log(data);
     if (isLoading) {
         return <div>Loading...</div>;
     }
