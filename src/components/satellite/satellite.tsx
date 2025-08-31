@@ -5,7 +5,7 @@ import * as satellite from 'satellite.js';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useDispatch } from 'react-redux';
-import { setSelectedSatelliteId } from '@/lib/satelliteSlice';
+import { setSelectedSatellite } from '@/lib/satelliteSlice';
 import { TSatellite } from '@/app/api/satellites/types';
 import Path from './path';
 
@@ -44,7 +44,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
           onPointerEnter={() => setShowTooltip(true)} 
           onPointerLeave={() => setShowTooltip(false)}
           onClick={() => {
-            dispatch(setSelectedSatelliteId(object_name));
+            dispatch(setSelectedSatellite(object_name));
           }} 
           position={satPos}
           >
