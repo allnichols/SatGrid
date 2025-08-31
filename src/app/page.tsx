@@ -2,6 +2,7 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import SatelliteContainer from '@/components/satellite';
+import InfoCard from '@/components/info-card';
 
 
 
@@ -26,6 +27,7 @@ export default function Home() {
         <SatelliteContainer />
         <OrbitControls target={[0, 0, 0]} />
       </Canvas>
+      <InfoCard />
     </div>
   );
 }

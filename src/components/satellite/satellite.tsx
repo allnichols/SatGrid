@@ -6,7 +6,7 @@ import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { useDispatch } from 'react-redux';
 import { setSelectedSatellite } from '@/lib/satelliteSlice';
-import { TSatellite } from '@/app/api/satellites/types';
+import { TSatellite } from '@/app/api/satellite_positions/types';
 import Path from './path';
 
 export function Satellite({ tle_line1, tle_line2, object_name, category }: TSatellite ) {
