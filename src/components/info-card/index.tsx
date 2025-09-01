@@ -67,6 +67,7 @@ function InfoCardContent({ selectedSatellite }: { selectedSatellite: string }) {
             </CardAction>
             <CardContent className='pl-0 overflow-y-auto'>
                 <div className="space-y-3">
+                    {isError && <div>Error loading satellite data</div>}
                     {Object.entries(data?.[0] || {}).map(([key, value]) => (
                         <div className='flex flex-row items-center sm-gap-3' key={key}>
                             <span className="font-medium mt-2 mb-2 min-w-32">
