@@ -19,7 +19,7 @@ function Earth() {
 export default function Home() {
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="flex items-center justify-center h-screen bg-black relative overflow-hidden">
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={2} />
         <directionalLight position={[5, 5, 5]} />
