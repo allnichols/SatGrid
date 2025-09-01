@@ -59,7 +59,7 @@ function InfoCardContent({ selectedSatellite }: { selectedSatellite: string }) {
                     className='absolute top-2 right-4 text-lg'
                     onClick={() =>{ 
                         setVisible(false);
-                       dispatch(clearSelectedSatellite())
+                       setTimeout(() => dispatch(clearSelectedSatellite()), 300);
                     }}
                 >
                     x
