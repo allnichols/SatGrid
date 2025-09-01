@@ -1,7 +1,10 @@
-import { useSelector } from 'react-redux';
-import { Card, CardContent, CardTitle } from '../ui/card';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, CardAction, CardContent, CardTitle } from '../ui/card';
+import { Button } from "@/components/ui/button"
 import { useGetMetaDataQuery } from '@/services/api';
 import { RootState } from '@/lib/store';
+import { clearSelectedSatellite } from '@/lib/satelliteSlice';
+import { useEffect, useState } from 'react';
 
 export default function InfoCard() {
     const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId);
@@ -10,47 +13,70 @@ export default function InfoCard() {
         return null;
     }
 
-    return (
-        <Card className="bg-black text-white p-4 absolute bottom-4 right-4">
-           <InfoCardContent selectedSatellite={selectedSatellite} />
-        </Card>
-    )
+    return <InfoCardContent selectedSatellite={selectedSatellite} />
+
 }
 
 function InfoCardContent({ selectedSatellite }: { selectedSatellite: string }) {
+    const dispatch = useDispatch();
     const { data, isLoading, isError } = useGetMetaDataQuery(selectedSatellite);
-    console.log(data);
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
 
-    if (isError) {
-        return <div>Error loading satellite data</div>;
-    }
 
-    console.log(data);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setVisible(true), 300);
+        return () => clearTimeout(timer);
+    }, [selectedSatellite])
+
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    // if (isError) {
+    //     return <div>Error loading satellite data</div>;
+    // }
 
     return (
-        <>
+        <Card className={`
+            bg-[#2A2A2A] text-white p-4 absolute
+            bottom-0
+            right-0
+            w-full
+            h-1/2
+            sm:w-95 sm:h-50 sm:bottom-4 sm:right-4
+            md:w-100 md:h-40 md:bottom-10 md:right-8
+            md:h-[90%] 
+            overflow-y-auto
+            border-0
+            rounded-t-md
+            transition-transform duration-300
+            ${visible ? 'translate-x-0' : 'translate-x-full'}
+        `}>
             <CardTitle>{data?.[0].object_name}</CardTitle>
-            <CardContent className='pl-0'>
-                <p className=""><span className="font-semibold">Satellite Name: </span>{data?.[0].object_name}</p>
-                <p className=""><span className="font-semibold">NORAD ID: </span>{data?.[0].norad_cat_id}</p>
-                <p className=""><span className="font-semibold">TLE Line 1: </span>{data?.[0].tle_line1}</p>
-                <p className=""><span className="font-semibold">TLE Line 2: </span>{data?.[0].tle_line2}</p>
-                <p className=""><span className="font-semibold">Mean Motion: </span>{data?.[0].mean_motion}</p>
-                <p className=""><span className="font-semibold">Mean Motion Dot: </span>{data?.[0].mean_motion_dot}</p>
-                <p className=""><span className="font-semibold">Mean Motion Ddot: </span>{data?.[0].mean_motion_ddot}</p>
-                <p className=""><span className="font-semibold">Eccentricity: </span>{data?.[0].eccentricity}</p>
-                <p className=""><span className="font-semibold">Inclination: </span>{data?.[0].inclination}</p>
-                <p className=""><span className="font-semibold">RA of Asc Node: </span>{data?.[0].ra_of_asc_node}</p>
-                <p className=""><span className="font-semibold">Arg of Pericenter: </span>{data?.[0].arg_of_pericenter}</p>
-                <p className=""><span className="font-semibold">Mean Anomaly: </span>{data?.[0].mean_anomaly}</p>
-                <p className=""><span className="font-semibold">Rev at Epoch: </span>{data?.[0].rev_at_epoch}</p>
-                <p className=""><span className="font-semibold">Ephemeris Type: </span>{data?.[0].ephemeris_type}</p>
-                <p className=""><span className="font-semibold">Bstar: </span>{data?.[0].bstar}</p>
+            <CardAction>
+                <Button
+                    className='absolute top-2 right-4 text-lg'
+                    onClick={() =>{ 
+                        setVisible(false);
+                       dispatch(clearSelectedSatellite())
+                    }}
+                >
+                    x
+                </Button>
+            </CardAction>
+            <CardContent className='pl-0 overflow-y-auto'>
+                <div className="space-y-3">
+                    {Object.entries(data?.[0] || {}).map(([key, value]) => (
+                        <div className='flex flex-row items-center sm-gap-3' key={key}>
+                            <span className="font-medium mt-2 mb-2 min-w-32">
+                                {key.replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase())}:
+                            </span>
+                            <span className="flex-1 ms-2">{value}</span>
+                        </div>
+                    ))}
+                </div>
             </CardContent>
-        </>
-
+        </Card>
     );
 }

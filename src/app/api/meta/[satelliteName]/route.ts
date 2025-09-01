@@ -9,7 +9,6 @@ export async function GET(request: Request, { params }: { params: { satelliteNam
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
     });
-    console.log(params)
     const { satelliteName } = params;
     
     try {
