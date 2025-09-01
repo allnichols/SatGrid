@@ -3,12 +3,10 @@ import { Card, CardTitle } from '@/components/ui/card';
 import { getOrbitPath, getSatelliteColor } from './utils';
 import * as satellite from 'satellite.js';
 import { Html } from '@react-three/drei';
-import { Line } from '@react-three/drei';
 import * as THREE from 'three';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedSatelliteId } from '@/lib/satelliteSlice';
-import { RootState } from '@/lib/store';
-import { TSatellite } from '@/app/api/satellites/types';
+import { useDispatch } from 'react-redux';
+import { setSelectedSatellite } from '@/lib/satelliteSlice';
+import { TSatellite } from '@/app/api/satellite_positions/types';
 import Path from './path';
 
 export function Satellite({ tle_line1, tle_line2, object_name, category }: TSatellite ) {
@@ -45,7 +43,9 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
         <mesh 
           onPointerEnter={() => setShowTooltip(true)} 
           onPointerLeave={() => setShowTooltip(false)}
-          onClick={() => dispatch(setSelectedSatelliteId(object_name))} 
+          onClick={() => {
+            dispatch(setSelectedSatellite(object_name));
+          }} 
           position={satPos}
           >
           <sphereGeometry args={[0.005, 10, 10]} />

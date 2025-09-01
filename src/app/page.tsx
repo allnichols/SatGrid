@@ -2,6 +2,7 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import SatelliteContainer from '@/components/satellite';
+import InfoCard from '@/components/info-card';
 
 
 
@@ -18,7 +19,7 @@ function Earth() {
 export default function Home() {
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="flex items-center justify-center h-screen bg-black relative overflow-hidden">
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={2} />
         <directionalLight position={[5, 5, 5]} />
@@ -26,6 +27,7 @@ export default function Home() {
         <SatelliteContainer />
         <OrbitControls target={[0, 0, 0]} />
       </Canvas>
+      <InfoCard />
     </div>
   );
 }
