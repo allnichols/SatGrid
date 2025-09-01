@@ -5,6 +5,7 @@ import { useGetMetaDataQuery } from '@/services/api';
 import { RootState } from '@/lib/store';
 import { clearSelectedSatellite } from '@/lib/satelliteSlice';
 import { useEffect, useState } from 'react';
+import { SkeletonContent } from './loading';
 
 export default function InfoCard() {
     const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId);
@@ -67,9 +68,12 @@ function InfoCardContent({ selectedSatellite }: { selectedSatellite: string }) {
             </CardAction>
             <CardContent className='pl-0 overflow-y-auto'>
                 <div className="space-y-3">
-                    {isError && <div>Error loading satellite data</div>}
+                    {isError && <div>Error loading satellite data {selectedSatellite}</div>}
+                    {isLoading && (
+                        Array.from({length: 5}).map((_, index) => <SkeletonContent key={index} />)
+                    )}
                     {Object.entries(data?.[0] || {}).map(([key, value]) => (
-                        <div className='flex flex-row items-center sm-gap-3' key={key}>
+                        <div className='flex flex-row items-center sm-gap-3 border-b border-[#515151]' key={key}>
                             <span className="font-medium mt-2 mb-2 min-w-32">
                                 {key.replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase())}:
                             </span>
