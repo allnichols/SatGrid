@@ -40,7 +40,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
             <CardAction>
                 <Button
                     className='absolute top-2 right-4 text-lg'
-                    onClick={() =>{ 
+                    onClick={() => { 
                         setVisible(false);
                        setTimeout(() => dispatch(clearSelectedSatellite()), 300);
                     }}
@@ -55,7 +55,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
                         Array.from({length: 5}).map((_, index) => <SkeletonContent key={index} />)
                     )}
                     {Object.entries(data?.[0] || {}).map(([key, value]) => (
-                        <div className='flex flex-row items-center sm-gap-3 p-2 border-b border-[#515151]' key={key}>
+                        <div className='flex flex-row items-center sm:gap-3 p-2 border-b border-[#515151]' key={key}>
                             <span className="font-medium mt-2 mb-2 min-w-32">
                                 {key.replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase())}:
                             </span>
