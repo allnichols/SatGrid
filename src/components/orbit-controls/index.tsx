@@ -10,7 +10,7 @@ export default function OrbitalControls() {
   const controlsRef = useRef<any>(null);
   const { camera } = useThree();
 
-  const defaultCameraPos = useRef(new THREE.Vector3(0, 0, 0));
+  // default starting position
   const defaultTarget = useRef(new THREE.Vector3(0, 0, 0));
 
   useFrame(() => {
@@ -34,7 +34,6 @@ export default function OrbitalControls() {
 
     } else if (controlsRef.current && target == null) {
       // No satellite selected: reset camera and controls target
-      
       controlsRef.current.target.lerp(defaultTarget.current, 0.1);
       controlsRef.current.update();
     }
