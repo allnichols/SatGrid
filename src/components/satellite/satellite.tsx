@@ -44,7 +44,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
           onPointerEnter={() => setShowTooltip(true)} 
           onPointerLeave={() => setShowTooltip(false)}
           onClick={() => {
-            dispatch(setSelectedSatellite(object_name));
+            dispatch(setSelectedSatellite({ object_name, satPos }));
           }} 
           position={satPos}
           >
