@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchSatellitesQuery } from '@/services/api';
+import Results from './components/results';
 
 const categoryOptions = ['weather', 'communication', 'navigation'];
 
@@ -62,11 +63,7 @@ export default function SearchBar() {
             {isLoading && <p className='text-white'>Loading...</p>}
             {isError && <p className='text-white'>Error fetching data</p>}
             {data && debouncedSearchTerm.length > 0 && (
-                <ul className='text-white'>
-                    {data.map((satellite) => (
-                        <li key={satellite.object_name}>{satellite.object_name}</li>
-                    ))}
-                </ul>
+                <Results results={data} />
             )}
 
         </div>
