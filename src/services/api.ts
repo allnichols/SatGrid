@@ -13,7 +13,7 @@ export const satellitePositionsApi = createApi({
             query: (satelliteName: string) => `meta/${satelliteName}`
         }),
 
-        searchSatellites: builder.query<{ object_name: string, category?: string }[], { searchTerm: string, category: string[] }>({
+        searchSatellites: builder.query<{ object_name: string, category?: string, tle_line1:string, tle_line2:string }[], { searchTerm: string, category: string[]  }>({
             query: ({ searchTerm, category }) => {
                 const params = new URLSearchParams()
                 if (searchTerm) params.set('searchTerm', searchTerm)
