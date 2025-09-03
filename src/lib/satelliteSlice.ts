@@ -8,7 +8,6 @@ const satelliteSlice = createSlice({
             state: { object_name: string | null; coordinates: [number, number, number] | null },
             action: { payload: { object_name: string; satPos: [number, number, number]  } }
         ) => {
-            console.log(action.payload)
             state.object_name = action.payload.object_name;
             state.coordinates = action.payload.satPos;
         },
