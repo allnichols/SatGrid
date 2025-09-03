@@ -15,7 +15,17 @@ export async function GET(request: Request) {
     const categories = categoryParam ? categoryParam.split(',').map(c => c.trim().toLowerCase()).filter(Boolean) : [];
     
     try {
-        let sql = `SELECT satellites.object_name, satellites.category FROM satellites WHERE LOWER(satellites.object_name) LIKE ?`
+        let sql = `
+            SELECT 
+                satellites.object_name, 
+                satellites.category, 
+                satellites.tle_line1, 
+                satellites.tle_line2 
+            FROM 
+                satellites 
+            WHERE 
+                LOWER(satellites.object_name) 
+            LIKE ?`
         let params: string[] = [`%${searchTerm.toLowerCase()}%`];
 
         if(categories.length > 0) {
