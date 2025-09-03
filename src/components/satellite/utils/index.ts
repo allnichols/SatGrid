@@ -27,9 +27,11 @@ export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) 
   return positions;
 }
 
-export function getSatelliteTLE(object_name: string, tle_line1: string, tle_line2: string) {
-  // Fix the time at mount
-  const fixedTimeRef = useRef<Date>(new Date());
+export function getSatelliteTLE(timeRef:any, tle_line1: string, tle_line2: string): 
+{ 
+  satPos: [number, number, number] | null; 
+  smoothPoints: any[]; 
+} | null {
 
   let points = getOrbitPath(tle_line1, tle_line2);
   if (points.length < 2) return null;
@@ -40,7 +42,7 @@ export function getSatelliteTLE(object_name: string, tle_line1: string, tle_line
   // Get Current Position
   const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
 
-  const result = satellite.propagate(satrec, fixedTimeRef.current);
+  const result = satellite.propagate(satrec, timeRef.current);
   let satPos: [number, number, number] | null = null;
   if (result?.position) {
     const scale = 1 / 6371;

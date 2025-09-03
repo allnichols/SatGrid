@@ -10,9 +10,8 @@ import Path from './path';
 export function Satellite({ tle_line1, tle_line2, object_name, category }: TSatellite ) {
   const [isShowTooltip, setShowTooltip] = useState(false);
   const dispatch = useDispatch();
-
-  const { satPos, smoothPoints } = getSatelliteTLE(object_name, tle_line1, tle_line2) || {};
-  
+  const fixedTimeRef = useRef<Date>(new Date());
+  const { satPos, smoothPoints } = getSatelliteTLE(fixedTimeRef, tle_line1, tle_line2) || {};
 
   return (
     <> 
