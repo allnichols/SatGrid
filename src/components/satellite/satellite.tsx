@@ -28,12 +28,8 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
           <sphereGeometry args={[0.005, 10, 10]} />
           <meshStandardMaterial color={getSatelliteColor(category)} />
           {isShowTooltip && (
-            <Html position={[0, 0.03, 0]}>
-              <Card className='bg-black p-2' style={{ minWidth: "max-content" }}>
-                <CardTitle className='text-white'>
-                  {object_name}
-                </CardTitle>
-              </Card>
+            <Html position={[0.06, 0.04, 0.03]}>
+              <div className="badge badge-xl">{object_name}</div>
             </Html>
            )}
         </mesh>
