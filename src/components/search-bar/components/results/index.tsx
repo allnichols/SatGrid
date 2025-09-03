@@ -4,7 +4,11 @@ import * as satellite from 'satellite.js';
 
 
 type ResultProps = {
-    results: Array<{ object_name: string, category?: string, tle_line1: string, tle_line2: string }>
+    results: Array<{ 
+        object_name: string, 
+        category?: string, 
+        tle_line1: string, 
+        tle_line2: string }>
 }
 
 function calculatePosition(tle_line1:string, tle_line2:string) {
