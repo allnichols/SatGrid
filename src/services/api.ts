@@ -11,6 +11,10 @@ export const satellitePositionsApi = createApi({
 
         getMetaData: builder.query<SatelliteMeta[], string>({
             query: (satelliteName: string) => `meta/${satelliteName}`
+        }),
+
+        getSearchSatellites: builder.query<any, { searchTerm: string, category: string }>({
+            query: ({ searchTerm, category }) => `search-satellites?searchTerm=${searchTerm}&category=${category}`
         })
     })
 })
