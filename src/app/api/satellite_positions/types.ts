@@ -3,7 +3,6 @@ export type TSatellite = {
     tle_line1: string;
     tle_line2: string;
     category: string;
-    subcategory?: string;
 };
 
 

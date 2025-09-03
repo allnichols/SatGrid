@@ -28,7 +28,7 @@ export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) 
 
 export function getSatelliteColor(category: string) {
   let color: string = ''
-  if (category === 'Weather Satellites') {
+  if (category === 'weather') {
     color = 'red';
   }
   return color;

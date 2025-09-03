@@ -16,8 +16,7 @@ export async function GET() {
                 satellites.object_name, 
                 satellites.tle_line1, 
                 satellites.tle_line2, 
-                satellites.category,
-                satellites.sub_category
+                satellites.category
             FROM 
                 satellites;
         `);
