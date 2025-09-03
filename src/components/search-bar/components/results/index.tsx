@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux"
 import { setSelectedSatellite } from "@/lib/satelliteSlice"
-import { getSatelliteTLE, getOrbitPath } from "@/components/satellite/utils";
 import * as satellite from 'satellite.js';
 
 
