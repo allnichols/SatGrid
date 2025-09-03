@@ -13,13 +13,19 @@ export const satellitePositionsApi = createApi({
             query: (satelliteName: string) => `meta/${satelliteName}`
         }),
 
-        getSearchSatellites: builder.query<any, { searchTerm: string, category: string }>({
-            query: ({ searchTerm, category }) => `search-satellites?searchTerm=${searchTerm}&category=${category}`
+        searchSatellites: builder.query<{object_name: string, category: string}[], { searchTerm: string, category: string[] }>({
+            query: ({ searchTerm, category }) => {
+                const params = new URLSearchParams()
+                params.set('searchTerm', searchTerm)
+                category.forEach(cat => params.append('category', cat))
+                return `search-satellites?${params.toString()}`
+            }
         })
     })
 })
 
 export const {
     useGetSatellitePositionsQuery,
-    useGetMetaDataQuery
+    useGetMetaDataQuery,
+    useSearchSatellitesQuery
 } = satellitePositionsApi;

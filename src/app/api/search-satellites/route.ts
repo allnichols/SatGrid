@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import mysql from 'mysql2/promise';
 
-export async function GET(request: Request, context: {params: any}) {
+export async function GET(request: Request) {
     const connection = await mysql.createConnection({
         host: 'localhost',
         user: process.env.DB_USER,
@@ -9,20 +9,22 @@ export async function GET(request: Request, context: {params: any}) {
         database: process.env.DB_NAME,
     });
 
-    const params = await context.params;
-    const searchTerm = params.searchTerm || '';
-    const category = params.category || '';
+    const searchParams = new URL(request.url).searchParams;
+    const searchTerm = searchParams.get('searchTerm') || '';
+    const category = searchParams.get('category') || '';
 
     try {
-        let sql = `SELECT satellites.object_name, satellites.category FROM satellites WHERE object_name LIKE ?`
-        let params: string[] = [`%${searchTerm}%`];
+        let sql = `SELECT satellites.object_name, satellites.category FROM satellites WHERE LOWER(satellites.object_name) LIKE ?`
+        let params: string[] = [`%${searchTerm.toLowerCase()}%`];
 
         if(category !== ''){
-            sql += ` AND category = ?`;
-            params.push(category);
+            sql += ` AND LOWER(satellites.category) = ?`;
+            params.push(category.toLowerCase());
         }
 
         const [rows] = await connection.execute(sql, params);
+        console.log(rows)
+        await connection.end();
         return NextResponse.json(rows);
     } catch (error) {
         console.error(error);

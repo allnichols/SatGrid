@@ -1,10 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { useSearchSatellitesQuery } from '@/services/api';
 
 export default function SearchBar() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+    useEffect(() => {
+        const searchHandler = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+        }, 400);
+
+        return () => clearTimeout(searchHandler);
+    }, [searchTerm])
+
+    const { data, isError, isLoading, } = useSearchSatellitesQuery(
+        { searchTerm: debouncedSearchTerm, category: [] }, 
+        { skip: debouncedSearchTerm.length < 1 });
 
     return (
         <div className='bg-[#171717] absolute top-4 left-4 z-10 border-[1px] border-gray-800 rounded-md p-4 sm:width-[100%]'>
@@ -14,6 +30,7 @@ export default function SearchBar() {
                     placeholder="Search for satellites"
                     className='text-white'
                     aria-label="Search for satellites"
+                    onChange={e => setSearchTerm(e.target.value)}
                 />
                 <Popover>
                     <PopoverTrigger>
@@ -22,14 +39,23 @@ export default function SearchBar() {
                         </svg>
                     </PopoverTrigger>
                     <PopoverContent className='bg-[#171717] border border-gray-800 rounded-md p-4'>
-                       <div className="flex items-center space-x-2">
-                           <Checkbox id="weather" />
-                           <Label htmlFor="weather" className='text-white'>Weather</Label>
-                       </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="weather" />
+                            <Label htmlFor="weather" className='text-white'>Weather</Label>
+                        </div>
                     </PopoverContent>
                 </Popover>
 
             </div>
+            {isLoading && <p className='text-white'>Loading...</p>}
+            {isError && <p className='text-white'>Error fetching data</p>}
+            {data && debouncedSearchTerm.length > 0 && (
+                <ul className='text-white'>
+                    {data.map((satellite) => (
+                        <li key={satellite.object_name}>{satellite.object_name}</li>
+                    ))}
+                </ul>
+            )}
 
         </div>
     );
