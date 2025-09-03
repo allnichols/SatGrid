@@ -3,7 +3,7 @@ import { SatelliteMeta, TSatellite } from '@/app/api/satellite_positions/types';
 
 export const satellitePositionsApi = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api/'}),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api/' }),
     endpoints: (builder) => ({
         getSatellitePositions: builder.query<TSatellite[], void>({
             query: () => 'satellite_positions'
@@ -13,11 +13,14 @@ export const satellitePositionsApi = createApi({
             query: (satelliteName: string) => `meta/${satelliteName}`
         }),
 
-        searchSatellites: builder.query<{object_name: string, category: string}[], { searchTerm: string, category: string[] }>({
+        searchSatellites: builder.query<{ object_name: string, category?: string }[], { searchTerm: string, category: string[] }>({
             query: ({ searchTerm, category }) => {
                 const params = new URLSearchParams()
-                params.set('searchTerm', searchTerm)
-                category.forEach(cat => params.append('category', cat))
+                if (searchTerm) params.set('searchTerm', searchTerm)
+
+                if (category.length >= 1) {
+                    params.append('category', category.join(','))
+                }
                 return `search-satellites?${params.toString()}`
             }
         })
