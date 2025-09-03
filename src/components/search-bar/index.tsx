@@ -6,9 +6,12 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useSearchSatellitesQuery } from '@/services/api';
 
+const categoryOptions = ['weather', 'communication', 'navigation'];
+
 export default function SearchBar() {
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+    const [categories, setCategories] = useState<string[]>([]);
 
     useEffect(() => {
         const searchHandler = setTimeout(() => {
@@ -18,8 +21,18 @@ export default function SearchBar() {
         return () => clearTimeout(searchHandler);
     }, [searchTerm])
 
+    const handleCategoryChange = (category: string) => {
+        setCategories(prev => {
+          return prev.includes(category)
+            ? prev.filter(cat => cat !== category)
+            : [...prev, category]
+        })
+    }
+
+    console.log(categories)
+
     const { data, isError, isLoading, } = useSearchSatellitesQuery(
-        { searchTerm: debouncedSearchTerm, category: [] }, 
+        { searchTerm: debouncedSearchTerm, category: categories }, 
         { skip: debouncedSearchTerm.length < 1 });
 
     return (
@@ -39,10 +52,18 @@ export default function SearchBar() {
                         </svg>
                     </PopoverTrigger>
                     <PopoverContent className='bg-[#171717] border border-gray-800 rounded-md p-4'>
-                        <div className="flex items-center space-x-2">
-                            <Checkbox id="weather" />
-                            <Label htmlFor="weather" className='text-white'>Weather</Label>
-                        </div>
+                        {categoryOptions.map(category => {
+                            return (
+                                <div className="flex items-center mt-2 p-1" key={category}>
+                                    <Checkbox 
+                                        id={category} 
+                                        checked={categories.includes(category)} 
+                                        onCheckedChange={() => handleCategoryChange(category)}
+                                    />
+                                    <Label htmlFor={category} className='text-white ms-2'>{category.charAt(0).toUpperCase() + category.slice(1)}</Label>
+                                </div>
+                            )
+                        })}
                     </PopoverContent>
                 </Popover>
 
