@@ -32,7 +32,7 @@ export default function SearchBar() {
     return (
         <div className='card w-96 bg-base-100 card-xs shadow-sm absolute top-4 left-4 z-10 border-[1px] border-gray-800 rounded-md p-4 sm:width-[100%]'>
             <div className='flex flex-row gap-2 justify-between'>
-                <input type="text" placeholder="Medium" className="input input-md" aria-label="Search for satellites"
+                <input type="text" placeholder="Search Satellites" className="input input-md" aria-label="Search for satellites"
                     onChange={e => setSearchTerm(e.target.value)} />
 
                 <div className="dropdown dropdown-center">
