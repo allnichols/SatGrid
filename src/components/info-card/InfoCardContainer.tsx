@@ -21,7 +21,8 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
 
     return (
         <Card className={`
-            bg-[#2A2A2A] text-white p-4 absolute
+            bg-[#171717] text-white
+            p-1 absolute
             bottom-0
             right-0
             w-full
@@ -30,7 +31,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
             md:w-100 md:h-40 md:bottom-10 md:right-8
             md:h-[90%] 
             overflow-y-auto
-            border-0
+            border-[#2e2f2f]
             rounded-t-md
             transition-transform duration-300
             ${visible ? 'translate-x-0' : 'translate-x-full'}
@@ -42,21 +43,21 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
                     className='absolute top-2 right-4 text-lg'
                     onClick={() => { 
                         setVisible(false);
-                       setTimeout(() => dispatch(clearSelectedSatellite()), 300);
+                        setTimeout(() => dispatch(clearSelectedSatellite()), 300);
                     }}
                 >
                     x
                 </Button>
             </CardAction>
-            <CardContent className='pl-0 overflow-y-auto'>
+            <CardContent className='pl-0'>
                 <div className="space-y-3">
                     {isError && <div>Error loading satellite data {selectedSatellite}</div>}
                     {isLoading && (
                         Array.from({length: 5}).map((_, index) => <SkeletonContent key={index} />)
                     )}
                     {Object.entries(data?.[0] || {}).map(([key, value]) => (
-                        <div className='flex flex-row items-center sm:gap-3 p-2 border-b border-[#515151]' key={key}>
-                            <span className="font-medium mt-2 mb-2 min-w-32">
+                        <div className='flex flex-row items-center sm:gap-3 p-1 border-b border-[#515151]' key={key}>
+                            <span className="font-medium mb-2 min-w-32">
                                 {key.replace(/_/g, ' ').replace(/\b\w/, c => c.toUpperCase())}:
                             </span>
                             <span className="flex-1 ms-2">{value}</span>

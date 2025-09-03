@@ -4,6 +4,7 @@ import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import SatelliteContainer from '@/components/satellite';
 import InfoCard from '@/components/info-card';
 import OrbitalControls from '@/components/orbit-controls';
+import SearchBar from '@/components/search-bar';
 
 
 
@@ -21,9 +22,10 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-black relative overflow-hidden">
+      <SearchBar />
       <Canvas style={{ height: "100vh" }}>
-        <ambientLight intensity={2} />
-        <directionalLight position={[5, 5, 5]} />
+        <ambientLight intensity={5} />
+        <directionalLight position={[3,3,3]} />
         <Earth />
         <SatelliteContainer />
         <OrbitalControls />
