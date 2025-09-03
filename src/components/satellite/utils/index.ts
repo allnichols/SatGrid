@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import * as satellite from 'satellite.js';
+import * as THREE from 'three';
 
 export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) {
   const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
@@ -25,6 +27,33 @@ export function getOrbitPath(tle_line1: string, tle_line2: string, steps = 500) 
   return positions;
 }
 
+export function getSatelliteTLE(object_name: string, tle_line1: string, tle_line2: string) {
+  // Fix the time at mount
+  const fixedTimeRef = useRef<Date>(new Date());
+
+  let points = getOrbitPath(tle_line1, tle_line2);
+  if (points.length < 2) return null;
+
+  const curve = new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(...p)))
+  const smoothPoints = curve.getPoints(1000);
+
+  // Get Current Position
+  const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
+
+  const result = satellite.propagate(satrec, fixedTimeRef.current);
+  let satPos: [number, number, number] | null = null;
+  if (result?.position) {
+    const scale = 1 / 6371;
+    satPos = [
+      result.position.x * scale,
+      result.position.y * scale,
+      result.position.z * scale
+    ]
+  }
+
+  return { satPos, smoothPoints };
+
+}
 
 export function getSatelliteColor(category: string) {
   let color: string = ''
