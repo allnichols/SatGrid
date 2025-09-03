@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Card, CardAction, CardContent, CardTitle } from '../ui/card';
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useGetMetaDataQuery } from '@/services/api';
 import { clearSelectedSatellite } from '@/lib/satelliteSlice';
 import { SkeletonContent, SkeletonTitle } from './loading';
