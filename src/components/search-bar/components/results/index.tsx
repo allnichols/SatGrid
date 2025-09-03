@@ -34,9 +34,8 @@ export default function Results({ results }: ResultProps) {
                 return (
                     <li
                         key={result.object_name}
-                        className="list-row flex hover:bg-base-300"
+                        className="list-row flex hover:bg-base-300 cursor-pointer"
                         onClick={() => {
-                            // clean this
                             const satPos = calculatePosition(result.tle_line1, result.tle_line2);
                             if (satPos) {
                                 dispatch(setSelectedSatellite({ object_name: result.object_name, satPos }));
@@ -47,7 +46,6 @@ export default function Results({ results }: ResultProps) {
                             <div>{result.object_name}</div>
                             <div className="text-xs uppercase font-semibold opacity-60">{result.category}</div>
                         </div>
-
                     </li>
                 )
             })}
