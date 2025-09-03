@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { Card, CardTitle } from '@/components/ui/card';
 import { getSatelliteColor, getSatelliteTLE } from './utils';
 import { Html } from '@react-three/drei';
 import { useDispatch } from 'react-redux';
