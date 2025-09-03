@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import SatelliteContainer from '@/components/satellite';
 import InfoCard from '@/components/info-card';
+import OrbitalControls from '@/components/orbit-controls';
 
 
 
@@ -25,7 +26,7 @@ export default function Home() {
         <directionalLight position={[5, 5, 5]} />
         <Earth />
         <SatelliteContainer />
-        <OrbitControls target={[0, 0, 0]} />
+        <OrbitalControls />
       </Canvas>
       <InfoCard />
     </div>

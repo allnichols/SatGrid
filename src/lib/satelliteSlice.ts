@@ -2,13 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const satelliteSlice = createSlice({
     name: 'satellite',
-    initialState: { selectedId: null },
+    initialState: { object_name: null, coordinates: null },
     reducers: {
-        setSelectedSatellite: (state, action) => {
-            state.selectedId = action.payload
+        setSelectedSatellite: (
+            state: { object_name: string | null; coordinates: [number, number, number] | null },
+            action: { payload: { object_name: string; satPos: [number, number, number]  } }
+        ) => {
+            console.log(action.payload)
+            state.object_name = action.payload.object_name;
+            state.coordinates = action.payload.satPos;
         },
         clearSelectedSatellite: (state) => {
-            state.selectedId = null;
+            state.object_name = null;
+            state.coordinates = null;
         }
     }
 })

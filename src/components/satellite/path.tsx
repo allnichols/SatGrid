@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 
 export default function SatellitePath({ object_name, points }: { object_name: string, points: THREE.Vector3[] }) {
-    const selectedSatellite = useSelector((state: RootState) => state.satellite.selectedId);
+    const selectedSatellite = useSelector((state: RootState) => state.satellite.object_name);
 
     return (
         <>
