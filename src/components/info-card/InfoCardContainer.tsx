@@ -9,10 +9,6 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
     const dispatch = useDispatch();
     const { data, isLoading, isError } = useGetMetaDataQuery(selectedSatellite);
 
-    useEffect(() => {
-        const timer = setTimeout(() => setVisible(true), 300);
-        return () => clearTimeout(timer);
-    }, [selectedSatellite])
 
     return (
         <div className={`

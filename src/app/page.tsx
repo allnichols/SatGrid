@@ -5,6 +5,7 @@ import SatelliteContainer from '@/components/satellite';
 import InfoCard from '@/components/info-card';
 import OrbitalControls from '@/components/orbit-controls';
 import Header from '@/components/header';
+import Toolbar from '@/components/header/toolbar';
 
 
 
@@ -23,6 +24,7 @@ export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen bg-black relative overflow-hidden">
       <Header />
+      <Toolbar />
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={5} />
         <directionalLight position={[3,3,3]} />
