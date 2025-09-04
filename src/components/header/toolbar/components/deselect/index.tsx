@@ -3,17 +3,18 @@ import { RootState } from "@/lib/store";
 import { clearSelectedSatellite } from "@/lib/satelliteSlice";
 
 // deselects the current satellite
-export default function SatelliteLink() {
+export default function DeselectSatelliteBtn() {
     const selectedSatellite = useSelector((state: RootState) => state.satellite.object_name);
     const dispatch = useDispatch();
 
     return (
-        <li onClick={() => {
-            if (!selectedSatellite) {
-                return;
-            };
-            dispatch(clearSelectedSatellite())
-        }}>
+        <button className={`btn btn-circle ${!selectedSatellite && "btn-disabled"}`}
+            onClick={() => {
+                if (!selectedSatellite) {
+                    return;
+                };
+                dispatch(clearSelectedSatellite())
+            }}>
             <a className="tooltip" data-tip={selectedSatellite ? "Deselect Satellite" : "No Satellite Selected"}>
                 {selectedSatellite ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 swap-on">
@@ -25,6 +26,6 @@ export default function SatelliteLink() {
                     </svg>
                 )}
             </a>
-        </li>
+        </button>
     )
 }
