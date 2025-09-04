@@ -16,6 +16,8 @@ export async function GET() {
                 satellites.object_name, 
                 satellites.tle_line1, 
                 satellites.tle_line2, 
+                satellites.classification_type,
+                satellites.norad_cat_id,
                 satellites.category
             FROM 
                 satellites;
