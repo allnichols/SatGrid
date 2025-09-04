@@ -1,19 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type SatelliteState = {
+    object_name: string | null;
+    coordinates: [number, number, number] | null;
+    classification_type?: string | null;
+    norad_cat_id?: number | null;
+    category?: string | null;
+}
+
+type SetSelectedSatelliteAction = {
+    payload: {
+        object_name: string;
+        satPos: [number, number, number];
+        classification_type?: string | null;
+        norad_cat_id?: number | null;
+        category?: string | null;
+    }
+}
+
 const satelliteSlice = createSlice({
     name: 'satellite',
-    initialState: { object_name: null, coordinates: null },
+    initialState: { object_name: null, coordinates: null, classification_type: null, norad_cat_id: null, category: null },
     reducers: {
         setSelectedSatellite: (
-            state: { object_name: string | null; coordinates: [number, number, number] | null },
-            action: { payload: { object_name: string; satPos: [number, number, number]  } }
+            state: SatelliteState,
+            action: SetSelectedSatelliteAction
         ) => {
             state.object_name = action.payload.object_name;
             state.coordinates = action.payload.satPos;
+            state.classification_type = action.payload.classification_type || null;
+            state.norad_cat_id = action.payload.norad_cat_id || null;
+            state.category = action.payload.category || null;
         },
         clearSelectedSatellite: (state) => {
             state.object_name = null;
             state.coordinates = null;
+            state.classification_type = null;
+            state.norad_cat_id = null;
+            state.category = null;
         }
     }
 })
