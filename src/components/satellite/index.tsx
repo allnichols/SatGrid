@@ -9,7 +9,6 @@ export default function SatelliteContainer() {
   if(isError) return null;
 
   if(data) {
-   
     return (
       <>
         {data.map((sat) => (
@@ -19,6 +18,8 @@ export default function SatelliteContainer() {
             tle_line2={sat.tle_line2}
             object_name={sat.object_name}
             category={sat.category}
+            classification_type={sat.classification_type}
+            norad_cat_id={sat.norad_cat_id}
           />
         ))}
       </>

@@ -6,6 +6,7 @@ import OrbitalControls from '@/components/orbit-controls';
 import Header from '@/components/header';
 import Toolbar from '@/components/header/toolbar';
 import DetailsCard from '@/components/details-card';
+import InfoCard from '@/components/info-card';
 
 
 
@@ -25,6 +26,9 @@ export default function Home() {
     <div className="flex items-center justify-center h-screen bg-black relative overflow-hidden">
       <Header />
       <Toolbar />
+      <DetailsCard />
+      <InfoCard />
+
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={5} />
         <directionalLight position={[3,3,3]} />
@@ -32,7 +36,6 @@ export default function Home() {
         <SatelliteContainer />
         <OrbitalControls />
       </Canvas>
-      <DetailsCard />
     </div>
   );
 }

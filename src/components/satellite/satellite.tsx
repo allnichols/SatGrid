@@ -6,7 +6,7 @@ import { setSelectedSatellite } from '@/lib/satelliteSlice';
 import { TSatellite } from '@/app/api/satellite_positions/types';
 import Path from './path';
 
-export function Satellite({ tle_line1, tle_line2, object_name, category }: TSatellite) {
+export function Satellite({ tle_line1, tle_line2, object_name, category, classification_type, norad_cat_id }: TSatellite) {
   const [isShowTooltip, setShowTooltip] = useState(false);
   const dispatch = useDispatch();
   const fixedTimeRef = useRef<Date>(new Date());
@@ -20,7 +20,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category }: TSate
           onPointerEnter={() => setShowTooltip(true)}
           onPointerLeave={() => setShowTooltip(false)}
           onClick={() => {
-            dispatch(setSelectedSatellite({ object_name, satPos }));
+                        dispatch(setSelectedSatellite({ object_name, satPos, classification_type, norad_cat_id, category }));
           }}
           position={satPos}
         >
