@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { satellitePositionsApi } from "@/services/api";
 import satelliteReducer from './satelliteSlice'
+import toolbarReducer from './toolbarSlice'
 
 export const store = configureStore({
     reducer: {
         [satellitePositionsApi.reducerPath]: satellitePositionsApi.reducer,
-        satellite: satelliteReducer
+        satellite: satelliteReducer,
+        toolbar: toolbarReducer
     },
      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(satellitePositionsApi.middleware)
 })
