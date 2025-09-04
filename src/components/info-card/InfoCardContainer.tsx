@@ -39,7 +39,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
                     setVisible(false);
                     setTimeout(() => dispatch(clearSelectedSatellite()), 300);
                 }}>x</div>
-                <div className=''>
+                <div>
                     {isError && <div>Error loading satellite data {selectedSatellite}</div>}
                     {isLoading && (
                         Array.from({ length: 5 }).map((_, index) => <SkeletonContent key={index} />)
