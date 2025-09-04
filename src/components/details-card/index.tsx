@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react';
 import { useGetMetaDataQuery } from '@/services/api';
 import { clearSelectedSatellite } from '@/lib/satelliteSlice';
+import { toggleDetails } from '@/lib/toolbarSlice';
 import { SkeletonContent, SkeletonTitle } from './loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
-export default function InfoCardContainer({ selectedSatellite }: { selectedSatellite: string }) {
-    const [visible, setVisible] = useState(false);
+export default function DetailsCard() {
+    const isDetailsOpen = useSelector((state: RootState) => state.toolbar.isDetailsOpen);
+    const selectedSatellite = useSelector((state: RootState) => state.satellite.object_name);
     const dispatch = useDispatch();
-    const { data, isLoading, isError } = useGetMetaDataQuery(selectedSatellite);
+     const { data, isLoading, isError } = useGetMetaDataQuery(selectedSatellite ?? '', {
+    skip: !selectedSatellite,
+  });
+
+  if (!selectedSatellite) return null;
 
 
     return (
@@ -19,7 +25,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
             h-[65%] w-[400px]
             absolute
             transition-transform duration-300
-            ${visible ? 'translate-x-0' : 'translate-x-full'}
+            ${isDetailsOpen ? 'translate-x-0' : 'translate-x-full'}
         `}>
             <div className='px-4 pt-4 pb-0'>
             {isLoading
@@ -32,8 +38,7 @@ export default function InfoCardContainer({ selectedSatellite }: { selectedSatel
                 <div 
                 className='absolute top-2 right-10 cursor-pointer' 
                 onClick={() => {
-                    setVisible(false);
-                    setTimeout(() => dispatch(clearSelectedSatellite()), 300);
+                    dispatch(toggleDetails());
                 }}>x</div>
                 <div>
                     {isError && <div>Error loading satellite data {selectedSatellite}</div>}

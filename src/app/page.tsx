@@ -2,10 +2,10 @@
 import { Canvas } from '@react-three/fiber';
 import { Sphere, useTexture } from '@react-three/drei';
 import SatelliteContainer from '@/components/satellite';
-import InfoCard from '@/components/info-card';
 import OrbitalControls from '@/components/orbit-controls';
 import Header from '@/components/header';
 import Toolbar from '@/components/header/toolbar';
+import DetailsCard from '@/components/details-card';
 
 
 
@@ -32,7 +32,7 @@ export default function Home() {
         <SatelliteContainer />
         <OrbitalControls />
       </Canvas>
-      <InfoCard />
+      <DetailsCard />
     </div>
   );
 }
