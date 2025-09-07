@@ -9,9 +9,7 @@ import Path from './path';
 
 export function Satellite({ tle_line1, tle_line2, object_name, category, classification_type, norad_cat_id }: TSatellite) {
   const [isShowTooltip, setShowTooltip] = useState(false);
-  
   const dispatch = useDispatch();
-  console.log(globalNow)
   const { satPos, smoothPoints } = getSatelliteTLE(globalNow, tle_line1, tle_line2) || {};
 
   return (
