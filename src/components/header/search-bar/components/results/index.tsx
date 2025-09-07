@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import { setSelectedSatellite } from "@/lib/satelliteSlice"
 import * as satellite from 'satellite.js';
+import { globalNow } from "@/components/utils/now";
 
 
 type ResultProps = {
@@ -8,12 +9,12 @@ type ResultProps = {
         object_name: string, 
         category?: string, 
         tle_line1: string, 
-        tle_line2: string }>
+        tle_line2: string }>;
 }
 
 function calculatePosition(tle_line1:string, tle_line2:string) {
     const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
-    const result = satellite.propagate(satrec, new Date());
+    const result = satellite.propagate(satrec, new Date(globalNow) as unknown as Date);
     if (result?.position) {
         const scale = 1 / 6371;
         return [

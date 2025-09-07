@@ -1,16 +1,17 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { getSatelliteColor, getSatelliteTLE } from './utils';
 import { Html } from '@react-three/drei';
 import { useDispatch } from 'react-redux';
 import { setSelectedSatellite } from '@/lib/satelliteSlice';
 import { TSatellite } from '@/app/api/satellite_positions/types';
+import { globalNow } from '@/components/utils/now';
 import Path from './path';
 
 export function Satellite({ tle_line1, tle_line2, object_name, category, classification_type, norad_cat_id }: TSatellite) {
   const [isShowTooltip, setShowTooltip] = useState(false);
   const dispatch = useDispatch();
-  const fixedTimeRef = useRef<Date>(new Date());
-  const { satPos, smoothPoints } = getSatelliteTLE(fixedTimeRef, tle_line1, tle_line2) || {};
+  console.log(globalNow)
+  const { satPos, smoothPoints } = getSatelliteTLE(globalNow, tle_line1, tle_line2) || {};
 
   return (
     <>
