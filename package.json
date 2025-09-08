@@ -28,6 +28,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-redux": "^9.2.0",
+    "recharts": "^3.1.2",
     "satellite.js": "^6.0.1",
     "tailwind-merge": "^3.3.1",
     "three": "^0.179.1"

@@ -7,6 +7,7 @@ import Header from '@/components/header';
 import Toolbar from '@/components/header/toolbar';
 import DetailsCard from '@/components/details-card';
 import InfoCard from '@/components/info-card';
+import ChartsContainer from '@/components/charts';
 
 
 
@@ -28,7 +29,8 @@ export default function Home() {
       <Toolbar />
       <DetailsCard />
       <InfoCard />
-
+      <ChartsContainer />
+    
       <Canvas style={{ height: "100vh" }}>
         <ambientLight intensity={5} />
         <directionalLight position={[3,3,3]} />
