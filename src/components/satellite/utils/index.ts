@@ -43,7 +43,7 @@ export function getSatelliteTLE(timeRef:any, tle_line1: string, tle_line2: strin
   const satrec = satellite.twoline2satrec(tle_line1, tle_line2);
 
   const result = satellite.propagate(satrec, new Date(timeRef));
-  console.log(result)
+  
   let satPos: [number, number, number] | null = null;
   if (result?.position) {
     const scale = 1 / 6371;

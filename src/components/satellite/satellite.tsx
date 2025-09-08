@@ -20,7 +20,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category, classif
           onPointerEnter={() => setShowTooltip(true)}
           onPointerLeave={() => setShowTooltip(false)}
           onClick={() => {
-              dispatch(setSelectedSatellite({ object_name, satPos, classification_type, norad_cat_id, category }));
+              dispatch(setSelectedSatellite({ object_name, satPos, classification_type, norad_cat_id, category, tle_line1, tle_line2 }));
           }}
           position={satPos}
         >

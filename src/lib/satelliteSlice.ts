@@ -6,6 +6,8 @@ type SatelliteState = {
     classification_type?: string | null;
     norad_cat_id?: number | null;
     category?: string | null;
+    tle_line1?: string | null;
+    tle_line2?: string | null;
 }
 
 type SetSelectedSatelliteAction = {
@@ -15,17 +17,29 @@ type SetSelectedSatelliteAction = {
         classification_type?: string | null;
         norad_cat_id?: number | null;
         category?: string | null;
+        tle_line1?: string | null;
+        tle_line2?: string | null;
     }
 }
 
 const satelliteSlice = createSlice({
     name: 'satellite',
-    initialState: { object_name: null, coordinates: null, classification_type: null, norad_cat_id: null, category: null },
+    initialState: { 
+            object_name: null, 
+            coordinates: null, 
+            classification_type: null, 
+            norad_cat_id: null, 
+            category: null,
+            tle_line1: null,
+            tle_line2: null
+        },
     reducers: {
         setSelectedSatellite: (
             state: SatelliteState,
             action: SetSelectedSatelliteAction
         ) => {
+            state.tle_line1 = action.payload.tle_line1 || null;
+            state.tle_line2 = action.payload.tle_line2 || null;
             state.object_name = action.payload.object_name;
             state.coordinates = action.payload.satPos;
             state.classification_type = action.payload.classification_type || null;
