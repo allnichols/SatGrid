@@ -3,12 +3,12 @@ import DetailsBtn from "@/components/header/toolbar/components/details";
 
 export default function Toolbar() {
     return (
-        <div className="absolute bottom-5 z-10">
+        <div className="absolute bottom-5 z-10 md:top-4">
             <ul className="menu menu-horizontal bg-base-200 rounded-box mt-6">
                 <DeselectSatelliteBtn/>
                 <DetailsBtn />
                 <li>
-                    <a className="tooltip" data-tip="Stats">
+                    <a className="tooltip md:tooltip-bottom" data-tip="Stats">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5"
