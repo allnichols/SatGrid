@@ -16,7 +16,8 @@ export default function DetailsBtn() {
     const dispatch = useDispatch();
 
     return (
-        <button className={`btn btn-circle ${!selectedSatellite && "btn-disabled"}`} onClick={handleToggleDetails}>
+        <button className={`btn btn-circle ${!selectedSatellite && "btn-disabled"} ${isDetailsOpen && "btn-active"}`} 
+            onClick={handleToggleDetails}>
             <a className="tooltip md:tooltip-bottom" data-tip="Details">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
