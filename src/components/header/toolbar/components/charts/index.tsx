@@ -1,4 +1,4 @@
-import { closeDetails, openCharts, toggleCharts,  } from "@/lib/toolbarSlice"
+import { closeDetails, toggleCharts  } from "@/lib/toolbarSlice"
 import { RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 
