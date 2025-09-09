@@ -22,29 +22,26 @@ export function getAltitudeOverTime(tleLine1: string, tleLine2: string, minutes 
     return results;
 }
 
-export function getAltitudeData(tleLine1: string, tleLine2: string, minutes = 100) {
-    const results: { time: string; altitude: number, speed: number }[] = [];
-    const now = new Date(globalNow);
+export function getSpeedData(tleLine1: string, tleLine2: string, steps = 100) {
+    const results: { time: Date; speed: number }[] = [];
 
     const satrec = satellite.twoline2satrec(tleLine1, tleLine2);
 
-    for (let i = 0; i <= minutes; i++) {
-        const time = new Date(now.getTime() + i * 60000);
-        const gmst = satellite.gstime(time); //sidereal time
+    const meanMotion = satrec.no * 1440 / (2 * Math.PI); // in revs per day
+    const periodMinutes = 1440 / meanMotion; // in minutes
+
+    const now = new Date();
+
+    for(let i = 0; i <= steps; i++) {
+        const time = new Date(now.getTime() + (i * periodMinutes * 60 * 1000) / steps);
+        const gmst = satellite.gstime(time);
         const posVel = satellite.propagate(satrec, time);
 
-        if (posVel?.position && posVel.velocity) {
-            const geo = satellite.eciToGeodetic(posVel.position, gmst);
-            const altitudeKm = geo.height;
-
-            // Speed
+        if(posVel?.velocity) {
             const { x, y, z } = posVel.velocity;
-            const speed = Math.sqrt(x * x + y * y + z * z) * 1000; // convert km/s to m/s
-            const speedKms = speed / 1000; // convert m/s to km/h
-
+            const speedKms = Math.sqrt(x*x + y*y + z*z); // in km/s
             results.push({
-                time: time.getHours() + ':' + time.getMinutes(), //HH:MM
-                altitude: Number(altitudeKm.toFixed(4)),
+                time, 
                 speed: Number(speedKms.toFixed(4))
             })
         }
