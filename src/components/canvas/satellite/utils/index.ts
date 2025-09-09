@@ -61,7 +61,12 @@ export function getSatelliteTLE(timeRef:any, tle_line1: string, tle_line2: strin
 export function getSatelliteColor(category: string) {
   let color: string = ''
   if (category === 'weather') {
-    color = 'red';
+    color = '#ff7878';
   }
+
+  if (category === 'communication') {
+    color = '#93e4ff';
+  }
+
   return color;
 }

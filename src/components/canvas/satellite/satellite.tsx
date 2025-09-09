@@ -11,7 +11,7 @@ export function Satellite({ tle_line1, tle_line2, object_name, category, classif
   const [isShowTooltip, setShowTooltip] = useState(false);
   const dispatch = useDispatch();
   const { satPos, smoothPoints } = getSatelliteTLE(globalNow, tle_line1, tle_line2) || {};
-
+  console.log(category)
   return (
     <>
       <Path object_name={object_name} points={smoothPoints ?? []} />
