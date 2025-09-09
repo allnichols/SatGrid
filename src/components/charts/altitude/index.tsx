@@ -44,7 +44,7 @@ export default function AltitudeChart() {
                 <XAxis dataKey="time" label={{
                     value: "Time", angle: 0, position: "insideBottomLeft", offset: -5
                 }} />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip label="altitude" />} />
                 <Line
                     type="monotone"
                     dataKey="altitude"

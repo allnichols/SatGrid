@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { getSpeedData } from '../altitude/utils/utils';
 import CustomTooltip from '../altitude/components/CustomTooltip';
@@ -30,7 +30,7 @@ export default function SpeedChart() {
                         position: "insideBottomLeft",
                     }}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip label='speed' />} />
                 <Line
                     type="monotone"
                     dataKey="speed"
