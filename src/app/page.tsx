@@ -10,18 +10,6 @@ import InfoCard from '@/components/info-card';
 import ChartsContainer from '@/components/charts';
 import CanvasScene from '@/components/canvas';
 
-
-
-function Earth() {
-  // todo: allow users to choose the map type
-  const texture = useTexture('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-  return (
-    <Sphere>
-      <meshStandardMaterial map={texture} />
-    </Sphere>
-  )
-}
-
 export default function Home() {
 
   return (
