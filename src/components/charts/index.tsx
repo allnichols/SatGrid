@@ -18,14 +18,17 @@ export default function ChartsContainer() {
         ${isChartsOpen ? 'translate-x-0' : 'translate-x-[105%]'}
         `} >
 
-            <div className="card-header p-4 border-b cursor-pointer">
+            <div className="card-header flex justify-between p-4 border-b cursor-pointer">
                 <h2 className="card-title text-lg">{selectedSatellite ? `${selectedSatellite}` : 'No satellite selected'}</h2>
-                <p className="text-sm opacity-70"
+                <svg
                     onClick={() => {
                         dispatch(closeCharts());
-                    }}>Click to close</p>
+                    }}
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+
             </div>
-            <div className="divider m-0" />
             <div className="card-body p-2 h-full">
                 <AltitudeChart />
                 <div className="divider my-2" />
