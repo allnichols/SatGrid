@@ -1,5 +1,5 @@
 import { useGetMetaDataQuery } from '@/services/api';
-import { toggleDetails } from '@/lib/toolbarSlice';
+import { closeDetails, toggleDetails } from '@/lib/toolbarSlice';
 import { SkeletonContent, SkeletonTitle } from './loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
@@ -13,7 +13,6 @@ export default function DetailsCard() {
     });
 
     if (!selectedSatellite) return null;
-
 
     return (
         <div className={`
@@ -38,7 +37,7 @@ export default function DetailsCard() {
                 <div
                     className='absolute top-2 right-10 cursor-pointer'
                     onClick={() => {
-                        dispatch(toggleDetails());
+                        dispatch(closeDetails());
                     }}>x</div>
                 <div>
                     {isError && <div>Error loading satellite data {selectedSatellite}</div>}

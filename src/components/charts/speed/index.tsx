@@ -27,7 +27,7 @@ export default function SpeedChart() {
                     label={{
                         value: "Speed (km/h)",
                         angle: -90,
-                        position: "insideLeft",
+                        position: "insideBottomLeft",
                     }}
                 />
                 <Tooltip content={<CustomTooltip />} />

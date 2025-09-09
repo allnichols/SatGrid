@@ -1,16 +1,23 @@
-import { toggleCharts } from "@/lib/toolbarSlice"
+import { closeDetails, openCharts, toggleCharts,  } from "@/lib/toolbarSlice"
 import { RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 
 export default function ChartsBtn() {
     const dispatch = useDispatch();
+    const selectedSatellite = useSelector((state: RootState) => state.satellite.object_name);
     const isChartsOpen = useSelector((state: RootState) => state.toolbar.isChartsOpen);
+    const isDetailsOpen = useSelector((state: RootState) => state.toolbar.isDetailsOpen);
 
-    const handleToggleCharts = () => dispatch(toggleCharts());
+    const handleToggleCharts = () =>{
+        if(isDetailsOpen) {
+            dispatch(closeDetails());
+        }
+        dispatch(toggleCharts());
+    };
 
     return (
         <button
-            className={`btn btn-circle`}
+            className={`btn btn-circle ${!selectedSatellite && "btn-disabled"} ${isChartsOpen && "btn-active"}`}
             onClick={handleToggleCharts}>
             <a className="tooltip md:tooltip-bottom" data-tip="Stats">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">

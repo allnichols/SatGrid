@@ -11,8 +11,24 @@ const toolbarSlice = createSlice({
         toggleCharts: (state) => {
             state.isChartsOpen = !state.isChartsOpen;
         },
+        openCharts: (state) => {
+            state.isChartsOpen = true;
+            state.isDetailsOpen = false;
+        },
+        closeCharts: (state) => {
+            state.isChartsOpen = false;
+        },
+        openDetails: (state) => {
+            state.isDetailsOpen = true;
+            state.isChartsOpen = false;
+        },
+        closeDetails: (state) => {
+            state.isDetailsOpen = false;
+        }
+
+
     },
 });
 
-export const { toggleDetails, toggleCharts } = toolbarSlice.actions;
+export const { toggleDetails, toggleCharts, openCharts, closeCharts, openDetails, closeDetails } = toolbarSlice.actions;
 export default toolbarSlice.reducer;

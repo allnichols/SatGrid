@@ -38,7 +38,7 @@ export default function AltitudeChart() {
                     label={{
                         value: "Altitude (km)",
                         angle: -90,
-                        position: "insideLeft",
+                        position: "insideBottomLeft",
                     }}
                 />
                 <XAxis dataKey="time" label={{
