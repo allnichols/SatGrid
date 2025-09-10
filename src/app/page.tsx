@@ -1,8 +1,4 @@
 'use client'
-import { Canvas } from '@react-three/fiber';
-import { Sphere, useTexture } from '@react-three/drei';
-import SatelliteContainer from '@/components/canvas/satellite';
-import OrbitalControls from '@/components/canvas/orbit-controls';
 import Header from '@/components/header';
 import Toolbar from '@/components/header/toolbar';
 import DetailsCard from '@/components/details-card';

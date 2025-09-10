@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { getSatelliteColor, getSatelliteTLE } from './utils';
 import { Html } from '@react-three/drei';
 import { useDispatch } from 'react-redux';
@@ -6,41 +6,50 @@ import { setSelectedSatellite } from '@/lib/satelliteSlice';
 import { TSatellite } from '@/app/api/satellite_positions/types';
 import { globalNow } from '@/components/utils/now';
 import Path from './path';
+import { satellitePositionsApi } from '@/services/api';
+import * as THREE from 'three';
 
-export function Satellite({ tle_line1, tle_line2, object_name, category, classification_type, norad_cat_id }: TSatellite) {
-  const [isShowTooltip, setShowTooltip] = useState(false);
-  const dispatch = useDispatch();
-  const { satPos, smoothPoints } = getSatelliteTLE(globalNow, tle_line1, tle_line2) || {};
-  console.log(category)
+export function SatellitePoints({ satellites }: { satellites: TSatellite[] }) {
+  const [positions, setPositions] = useState<Float32Array | null>(null);
+  const workerRef = useRef<Worker | null>(null);
+
+  useEffect(() => {
+    const worker = new Worker(new URL('./utils/satelliteWorker.js', import.meta.url));
+    workerRef.current = worker;
+
+    // send TLE data to the worker
+    worker.postMessage({
+      type: 'init', satellites: satellites.map(s =>
+        ({ tle_line1: s.tle_line1, tle_line2: s.tle_line2, category: s.category }))
+    });
+
+    worker.onmessage = (e) => {
+      if (e.data.type === 'ready' || e.data.type === 'positions') {
+        setPositions(e.data.positions);
+      }
+    };
+
+    return () => worker.terminate();
+  }, [satellites])
+
+  useEffect(() => {
+    let frame: number;
+    const tick = () => {
+      if (workerRef.current) workerRef.current.postMessage({ type: 'tick', time: performance.now() });
+      frame = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  if (!positions) return null;
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
   return (
-    <>
-      <Path object_name={object_name} points={smoothPoints ?? []} />
-      {satPos && (
-        <mesh
-          onPointerEnter={() => setShowTooltip(true)}
-          onPointerLeave={() => setShowTooltip(false)}
-          onClick={() => {
-            dispatch(setSelectedSatellite({ object_name, satPos, classification_type, norad_cat_id, category, tle_line1, tle_line2 }));
-          }}
-          position={satPos}
-        >
-          <sphereGeometry args={[0.005, 10, 10]} />
-          <meshStandardMaterial color={getSatelliteColor(category)} />
-          {isShowTooltip && (
-            <Html position={[0, 0.05, 0]} center>
-              <div className="card bg-base-100 card-xs shadow-sm"
-                style={{
-                  minWidth: "max-content",
-                  transform: "translate(-20%, -20%)"
-                }}>
-                <div className="card-body">
-                  <h2 className="card-title">{object_name}</h2>
-                </div>
-              </div>
-            </Html>
-          )}
-        </mesh>
-      )}
-    </>
+    <points geometry={geometry}>
+      <pointsMaterial size={0.01} color="white" sizeAttenuation />
+    </points>
   );
 }

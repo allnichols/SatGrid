@@ -1,5 +1,6 @@
 import { useGetSatellitePositionsQuery } from '@/services/api';
-import { Satellite } from './satellite';
+import { SatellitePoints } from './satellite';
+import { Satellite } from 'lucide-react';
 
 export default function SatelliteContainer() {
   const { data, isLoading, isError } = useGetSatellitePositionsQuery();
@@ -10,19 +11,7 @@ export default function SatelliteContainer() {
 
   if(data) {
     return (
-      <>
-        {data.map((sat) => (
-          <Satellite
-            key={sat.object_name}
-            tle_line1={sat.tle_line1}
-            tle_line2={sat.tle_line2}
-            object_name={sat.object_name}
-            category={sat.category}
-            classification_type={sat.classification_type}
-            norad_cat_id={sat.norad_cat_id}
-          />
-        ))}
-      </>
+      <SatellitePoints satellites={data} />
     );
   }
 }
